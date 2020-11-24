@@ -12,6 +12,29 @@ router.get('/', (req, res) => {
     res.send('Ships page');
 })
 
+// dedicated page for travel functionality
+router.get('/travel', (req, res) => {
+    res.send('Travel page');
+});
+
+router.put('/travel/:id', (req, res) => {
+    // read the ships file
+    let rawShip = fs.readFileSync('./data/ships.json');
+    let jShip = JSON.parse(rawShip);
+
+    // check status of the ship
+    const ship = jShip.find(c => c.id === req.params.id);
+    if (!ship) return res.status(400).send('Ship with given id does not exist!');
+    if (ship.id != "O") return res.status(400).send('Ship with given id is not operational!');
+
+    // read the locations file
+    let rawLoc = fs.readFileSync('./data/locations.json');
+    let jLoc = JSON.parse(rawLoc);
+
+    const city = jLoc.find(c => c.cname === req.body.cname);
+
+});
+
 // get ship by id
 router.get('/:id', (req, res) => {
     // read the ships file
