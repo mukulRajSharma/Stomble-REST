@@ -1,5 +1,5 @@
 # Stomble-REST
-[X] Add spaceships: a spaceship must have an id, name, model, location (made up of a city and a planet) and its status (decommissioned, maintenance or operational).
+[checkbox:unchecked] Add spaceships: a spaceship must have an id, name, model, location (made up of a city and a planet) and its status (decommissioned, maintenance or operational).
 [X] Update the spaceship status: to one of the 3 possible states.
 [X] Add a location: a location must have an id, city name and a planet name; as well as the spaceport capacity (how many spaceships can be stationed at this location simultaneously).
 [X]Remove spaceships: given a spaceship’s id.
