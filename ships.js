@@ -1,15 +1,11 @@
+const { json } = require('body-parser');
 const express = require('express');
+const fs = require('fs');
+
 const router = express.Router();
 
 // handling json post requests
 router.use(express.json());
-
-
-// JSON objects storing ships
-var ships = [
-    {id: 1, name: 'A', model: 'AA', location: ['cloudy', 'alienation'], status: 'D'},
-    {id: 2, name: 'B', model: 'BB', location: ['foggy', 'ghostnation'], status: 'M'}
-];
 
 // get ships root page
 router.get('/', (req, res) => {
@@ -18,14 +14,20 @@ router.get('/', (req, res) => {
 
 // get ship by id
 router.get('/:id', (req, res) => {
+    // read the ships file
+    let rawShip = fs.readFileSync('./data/ships.json');
+    let jShip = JSON.parse(rawShip);
+
     // to list all ships
-    if (req.params.id === 'list'){
+    if (req.params.id == 'list'){
         res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify(ships, null, 3));
+        res.end(JSON.stringify(jShip, null, 3));
+        return;
     }
-    const ship = ships.find(c => c.id === parseInt(req.params.id));
+    // to list ship by id
+    const ship = jShip.find(c => c.id === parseInt(req.params.id));
     if(!ship) {
-        res.status(404).send('Ship with the given id does not exist');
+        res.status(404).end('Ship with the given id does not exist');
         return;
     }
     res.end(JSON.stringify(ship, null, 3));
@@ -35,24 +37,54 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
     // minimal input validation
     if (!req.body.name || !req.body.model || !req.body.location || !req.body.status){
-        res.status(400).send('name, model, location, capacity are required!');
+        res.status(400).send('name, model, location, capacity are required, cannot be blank!');
+        return;
+    }
+
+    // read the ships file
+    let rawShip = fs.readFileSync('./data/ships.json');
+    let jShip = JSON.parse(rawShip);
+    
+    // read the locations file
+    let rawLoc = fs.readFileSync('./data/locations.json');
+    let jLoc = JSON.parse(rawLoc);
+
+    // validate city name
+    const checkCity = jLoc.find(c => c.cname === req.body.location[0]);
+    if (!checkCity) return res.status(400).send('City name does not exist in locations list!');
+    // validate planet name
+    const checkPlanet = jLoc.find(c => c.pname === req.body.location[1]);
+    if (!checkPlanet) return res.status(400).send('Planet name does not exist in locations list!');
+
+    // validate status 
+    validStatus = ["D", "O", "M"];
+    if(!validStatus.includes(req.body.status)) {
+        res.status(400).send('Invalid status value!');
         return;
     }
 
     const ship = {
-        id: ships.length+1,
+        id: jShip.length+1,
         name: req.body.name,
         model: req.body.model,
         location: req.body.location,
         status: req.body.status
     };
-    ships.push(ship);
+
+    // write changes to the ships file
+    jShip.push(ship);
+    fs.writeFileSync('./data/ships.json', JSON.stringify(jShip));
+
     res.send(ship);
 });
 
 // update ship status
 router.put('/:id', (req, res) => {
-    const ship = ships.find(c => c.id === parseInt(req.params.id));
+    // read the ships file
+    let rawShip = fs.readFileSync('./data/ships.json');
+    let jShip = JSON.parse(rawShip);
+
+    const ship = jShip.find(c => c.id === parseInt(req.params.id));
     if (!ship) {
         res.status(404).send('Ship with given id not found!');
         return;
@@ -64,20 +96,28 @@ router.put('/:id', (req, res) => {
         return;
     }
 
+    // write the updated status back to the file
     ship.status = req.body.status;
+    fs.writeFileSync('./data/ships.json', JSON.stringify(jShip));
+
     res.send(ship);
 });
 
-// delete location with given id
+// delete ship with given id
 router.delete('/:id', (req, res) => {
-    const ship = ships.find(c => c.id === parseInt(req.params.id));
+    // read the ships file
+    let rawShip = fs.readFileSync('./data/ships.json');
+    let jShip = JSON.parse(rawShip);
+
+    const ship = jShip.find(c => c.id === parseInt(req.params.id));
     if (!ship) {
         res.status(404).send('Ship with given id does not exist');
         return;
     }
-    const index = ships.indexOf(ship);
-    ships.splice(index, 1);
+    const index = jShip.indexOf(ship);
+    jShip.splice(index, 1);
 
+    fs.writeFileSync('./data/ships.json', JSON.stringify(jShip));
     res.send(ship);
 });
 

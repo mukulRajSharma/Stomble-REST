@@ -6,9 +6,6 @@ const router = express.Router();
 // handling json post requests
 router.use(express.json())
 
-const checkout = typeof window !== 'undefined' ? localStorage.setItem("locationStorage", JSON.stringify(locations)) : null
-//localStorage.setItem("locationStorage", JSON.stringify(locations));
-// location root page
 router.get('/', (req, res) => {
     res.send('Locations page');
 });
@@ -17,7 +14,7 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
 
     // read the locations file
-    let rawLoc = fs.readFileSync('locations.json');
+    let rawLoc = fs.readFileSync('./data/locations.json');
     let jLoc = JSON.parse(rawLoc);
     
     // listing all locations
@@ -45,7 +42,7 @@ router.post('/', (req, res) => {
         return;
     }
     // load the locations file
-    let rawLoc = fs.readFileSync('locations.json');
+    let rawLoc = fs.readFileSync('./data/locations.json');
     let jLoc = JSON.parse(rawLoc);
 
     // make JSON object to be pushed to file
@@ -58,14 +55,15 @@ router.post('/', (req, res) => {
 
     // write the changes back to the file
     jLoc.push(loc);
-    fs.writeFileSync('locations.json', JSON.stringify(jLoc));
+    fs.writeFileSync('./data/locations.json', JSON.stringify(jLoc));
+
     res.send(loc);
 });
 
 // delete location with given id
 router.delete('/:id', (req, res) => {
     // load the locations file
-    let rawLoc = fs.readFileSync('locations.json');
+    let rawLoc = fs.readFileSync('./data/locations.json');
     let jLoc = JSON.parse(rawLoc);
 
     // find the location with given id
@@ -79,7 +77,7 @@ router.delete('/:id', (req, res) => {
     jLoc.splice(index, 1);
 
     // write the changes back to the file
-    fs.writeFileSync('locations.json', JSON.stringify(jLoc));
+    fs.writeFileSync('./data/locations.json', JSON.stringify(jLoc));
     res.send(loc);
 });
 
