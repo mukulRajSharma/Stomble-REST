@@ -41,7 +41,7 @@ router.post('/', (req, res) => {
         res.status(400).send('name, model, location, capacity are required!');
         return;
     }
-    
+
     const ship = {
         id: ships.length+1,
         name: req.body.name,
@@ -50,6 +50,22 @@ router.post('/', (req, res) => {
         status: req.body.status
     };
     ships.push(ship);
+    res.send(ship);
+});
+
+// update ship status
+router.put('/:id', (req, res) => {
+    const ship = ships.find(c => c.id === parseInt(req.params.id));
+    if (!ship) res.status(404).send('Ship with given id not found!');
+
+    // decomisioned, operational, maintenance
+    validStatus = ["D", "O", "M"];
+    if(!validStatus.includes(req.body.status)) {
+        res.status(400).send('Invalid status value!');
+        return;
+    }
+    
+    ship.status = req.body.status;
     res.send(ship);
 });
 
