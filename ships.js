@@ -36,6 +36,12 @@ router.get('/list', (req, res) => {
 
 // post ship to ships list
 router.post('/', (req, res) => {
+    // minimal input validation
+    if (!req.body.name || !req.body.model || !req.body.location || !req.body.status){
+        res.status(400).send('name, model, location, capacity are required!');
+        return;
+    }
+    
     const ship = {
         id: ships.length+1,
         name: req.body.name,

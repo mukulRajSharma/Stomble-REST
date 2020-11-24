@@ -29,6 +29,12 @@ router.get('/:id', (req, res) => {
 
 // post location to locations list
 router.post('/', (req, res) => {
+    // minimal input validation
+    if (!req.body.cname || !req.body.pname || !req.body.capacity) {
+        // send 400 - bad request
+        res.status(400).send('cname, pname, capacity required !');
+        return;
+    }
     const loc = {
         id: locations.length+1,
         cname: req.body.cname,
