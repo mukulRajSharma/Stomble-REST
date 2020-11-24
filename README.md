@@ -5,8 +5,16 @@
 In the root directory
 ```
 npm install
+```
+When in development:
+```
 nodemon index.js
 ```
+Else simply:
+```
+node index.js
+```
+
 By default the server runs on PORT 3000 (can be updated in index.js).\
 Open http://localhost:3000/
 
