@@ -1,5 +1,15 @@
 # Stomble-REST
 
+## Setup:
+
+In the root directory
+```
+npm install
+nodemon index.js
+```
+By default the server runs on PORT 3000 (can be updated in index.js).
+Open http://localhost:3000/
+
 ## Features (TODO list):
 
 - [X] Add spaceships: a spaceship must have an id, name, model, location (made up of a city and a planet) and its status (decommissioned, maintenance or operational).
