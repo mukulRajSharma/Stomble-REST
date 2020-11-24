@@ -7,7 +7,7 @@ In the root directory
 npm install
 nodemon index.js
 ```
-By default the server runs on PORT 3000 (can be updated in index.js).
+By default the server runs on PORT 3000 (can be updated in index.js).\
 Open http://localhost:3000/
 
 ## Features (TODO list):
