@@ -24,15 +24,12 @@ router.get('/:id', (req, res) => {
         res.end(JSON.stringify(ships, null, 3));
     }
     const ship = ships.find(c => c.id === parseInt(req.params.id));
-    if(!ships) res.status(404).send('Ship with the given id does not exist');
+    if(!ship) {
+        res.status(404).send('Ship with the given id does not exist');
+        return;
+    }
     res.end(JSON.stringify(ship, null, 3));
 });
-
-// get Ships list
-router.get('/list', (req, res) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(ships, null, 3));
-})
 
 // post ship to ships list
 router.post('/', (req, res) => {
@@ -56,17 +53,33 @@ router.post('/', (req, res) => {
 // update ship status
 router.put('/:id', (req, res) => {
     const ship = ships.find(c => c.id === parseInt(req.params.id));
-    if (!ship) res.status(404).send('Ship with given id not found!');
-
+    if (!ship) {
+        res.status(404).send('Ship with given id not found!');
+        return;
+    }
     // decomisioned, operational, maintenance
     validStatus = ["D", "O", "M"];
     if(!validStatus.includes(req.body.status)) {
         res.status(400).send('Invalid status value!');
         return;
     }
-    
+
     ship.status = req.body.status;
     res.send(ship);
 });
+
+// delete location with given id
+router.delete('/:id', (req, res) => {
+    const ship = ships.find(c => c.id === parseInt(req.params.id));
+    if (!ship) {
+        res.status(404).send('Ship with given id does not exist');
+        return;
+    }
+    const index = ships.indexOf(ship);
+    ships.splice(index, 1);
+
+    res.send(ship);
+});
+
 
 module.exports = router;

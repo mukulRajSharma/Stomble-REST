@@ -23,7 +23,10 @@ router.get('/:id', (req, res) => {
         res.end(JSON.stringify(locations, null, 3));
     }
     const loc = locations.find(c => c.id === parseInt(req.params.id));
-    if (!loc) res.status(404).send('The location with given id does not exist');
+    if (!loc) {
+        res.status(404).send('The location with given id does not exist');
+        return;
+    }
     res.end(JSON.stringify(loc, null, 3));
 });
 
@@ -42,6 +45,19 @@ router.post('/', (req, res) => {
         capacity: req.body.capacity
     };
     locations.push(loc);
+    res.send(loc);
+});
+
+// delete location with given id
+router.delete('/:id', (req, res) => {
+    const loc = locations.find(c => c.id === parseInt(req.params.id));
+    if (!loc) {
+        res.status(404).send('Location with given id does not exist');
+        return;
+    }
+    const index = locations.indexOf(loc);
+    locations.splice(index, 1);
+
     res.send(loc);
 });
 
