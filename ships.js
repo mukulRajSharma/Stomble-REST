@@ -21,7 +21,8 @@ router.put('/travel/:id', (req, res) => {
     // read the ships file
     let rawShip = fs.readFileSync('./data/ships.json');
     let jShip = JSON.parse(rawShip);
-
+    // read the file
+    
     // check status of the ship
     const ship = jShip.find(c => c.id === req.params.id);
     if (!ship) return res.status(400).send('Ship with given id does not exist!');
@@ -31,6 +32,10 @@ router.put('/travel/:id', (req, res) => {
     let rawLoc = fs.readFileSync('./data/locations.json');
     let jLoc = JSON.parse(rawLoc);
 
+    // check location cap
+
+    // change ship status
+    
     const city = jLoc.find(c => c.cname === req.body.cname);
 
 });
