@@ -57,6 +57,13 @@ DELETE localhost:PORT/locations/id
 - [X] Travel functionality: Travel involves changing the location of the spaceship and adjusting the capacity of the source and destination spaceports. Before carrying out the travel transaction, check these two factors:
 o	The spaceport capacity of the destination (if not, return an appropriate error).
 o	The status of the spaceship (only operational spaceships can travel).
+```
+PUT localhost:PORT/ships/travel/id
+{
+  "cname": "destinationCity",
+  "pname": "destinationPlanet"
+}
+```
 
 ## Additional routes:
 
