@@ -54,7 +54,7 @@ DELETE localhost:PORT/ships/id
 ```
 DELETE localhost:PORT/locations/id
 ```
-- [ ] Travel functionality: Travel involves changing the location of the spaceship and adjusting the capacity of the source and destination spaceports. Before carrying out the travel transaction, check these two factors:
+- [X] Travel functionality: Travel involves changing the location of the spaceship and adjusting the capacity of the source and destination spaceports. Before carrying out the travel transaction, check these two factors:
 o	The spaceport capacity of the destination (if not, return an appropriate error).
 o	The status of the spaceship (only operational spaceships can travel).
 
