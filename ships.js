@@ -21,7 +21,6 @@ router.put('/travel/:id', (req, res) => {
     // read the ships file
     let rawShip = fs.readFileSync('./data/ships.json');
     let jShip = JSON.parse(rawShip);
-    // read the file
     
     // check status of the ship
     const ship = jShip.find(c => c.id === req.params.id);
@@ -32,11 +31,17 @@ router.put('/travel/:id', (req, res) => {
     let rawLoc = fs.readFileSync('./data/locations.json');
     let jLoc = JSON.parse(rawLoc);
 
-    // check location cap
+    // find location with requested city and planet
+    const loc = jLoc.find(c => c.cname === req.params.cname && c.pname === req.params.pname);
+    // location not found error
+    if (!loc) return res.status(400).send('Location with given name does not exist!');
 
-    // change ship status
-    
-    const city = jLoc.find(c => c.cname === req.body.cname);
+    // location found, check destination capacity
+    if (loc.capacity < 1) return res.status(400).send('Location has reached max capacity!');
+
+    // location found and has available space
+    ship.find
+
 
 });
 
