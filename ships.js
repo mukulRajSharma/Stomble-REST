@@ -24,7 +24,7 @@ router.put('/travel/:id', (req, res) => {
     
     // check status of the ship
     const ship = jShip.find(c => c.id === parseInt(req.params.id));
-    if (!ship) return res.status(400).send('Ship with given id does not exist!');
+    if (!ship) return res.status(404).send('Ship with given id does not exist!');
     if (ship.status != "O") return res.status(400).send('Ship with given id is not operational!');
 
     // read the locations file
@@ -172,10 +172,21 @@ router.delete('/:id', (req, res) => {
         res.status(404).send('Ship with given id does not exist');
         return;
     }
+
+    // update location count (increase by one)
+    let rawLoc = fs.readFileSync('./data/locations.json');
+    let jLoc = JSON.parse(rawLoc);
+
+    const loc = jLoc.find(c => c.cname === ship.location[0] && c.pname === ship.location[1]);
+    loc.capacity = loc.capacity + 1;
+    
+    // delete ship with this id
     const index = jShip.indexOf(ship);
     jShip.splice(index, 1);
 
+    // update the data in the files
     fs.writeFileSync('./data/ships.json', JSON.stringify(jShip));
+    fs.writeFileSync('./data/locations.json', JSON.stringify(jLoc));
     res.send(ship);
 });
 

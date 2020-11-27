@@ -72,6 +72,16 @@ router.delete('/:id', (req, res) => {
         res.status(404).send('Location with given id does not exist');
         return;
     }
+    
+    // check if there are any ships at this location
+    // if yes, then remove or delte them before deleting lcoation
+
+    let rawShip = fs.readFileSync('./data/ships.json');
+    let jShip = JSON.parse(rawShip);
+
+    const ship = jShip.find(c => loc.cname===c.location[0] && loc.pname===c.location[1]);
+    if (ship) return res.status(400).send('Location has ships parked, remove or delete ships before deleting location!');
+
     // remove element from the JSON locations list
     const index = jLoc.indexOf(loc);
     jLoc.splice(index, 1);
