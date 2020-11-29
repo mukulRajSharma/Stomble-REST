@@ -1,5 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
+import axios from 'axios';
+
+const hitBackend = () => {
+  axios.get('/ships')
+  .then((response) => {
+  console.log(response.data)
+  })
+}
 
 function App() {
   return (
@@ -18,6 +26,7 @@ function App() {
           Learn React
         </a>
       </header>
+      <button onClick={hitBackend}>Ships page</button>
     </div>
   );
 }

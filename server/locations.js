@@ -3,11 +3,14 @@ const fs = require('fs');
 
 const router = express.Router();
 
+const path = require('path');
+
 // handling json post requests
 router.use(express.json())
 
 router.get('/', (req, res) => {
-    res.send('Locations page');
+    //res.send('Locations page');
+    res.sendFile(path.join(__dirname)+'/views/locations.html');
 });
 
 // get location by id

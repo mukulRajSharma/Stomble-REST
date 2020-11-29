@@ -2,6 +2,8 @@ const { json } = require('body-parser');
 const express = require('express');
 const fs = require('fs');
 
+const path = require('path');
+
 const router = express.Router();
 
 // handling json post requests
@@ -9,7 +11,8 @@ router.use(express.json());
 
 // get ships root page
 router.get('/', (req, res) => {
-    res.send('Ships page');
+    //res.send('Ship Page');
+    res.sendFile(path.join(__dirname)+'/views/ships.html');
 })
 
 // dedicated page for travel functionality
