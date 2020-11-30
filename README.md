@@ -24,9 +24,9 @@ Open http://localhost:3000/
 ```
 POST localhost:PORT/ships 
 {
-  "name": 'A',
-  "model": modelA,
-  "location": ['cityName', 'planetName'],
+  "name": "A",
+  "model": "modelA",
+  "location": ["cityName", "planetName"],
   "status": "O"
 }
 ```
@@ -41,8 +41,8 @@ PUT localhost:PORT/ships
 ```
 POST localhost:PORT/locations 
 {
-  "cname": 'cloudy',
-  "pname": alienation,
+  "cname": "cloudy",
+  "pname": "Alienation",
   "capacity": 10
 }
 ```
