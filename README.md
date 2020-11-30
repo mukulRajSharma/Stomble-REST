@@ -2,7 +2,7 @@
 
 ## Setup:
 
-In the root directory
+In the server directory
 ```
 npm install
 ```
