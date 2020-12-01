@@ -90,7 +90,7 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
     // minimal input validation
     if (!req.body.name || !req.body.model || !req.body.location || !req.body.status){
-        res.status(400).send('name, model, location, capacity are required, cannot be blank!');
+        res.status(400).send('name, model, location, status are required, cannot be blank!');
         return;
     }
 

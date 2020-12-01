@@ -20,24 +20,24 @@
                     <li class="list-group-item"><a href="http://localhost:3000/ships/list" class="btn btn-primary btn-lg btn-block">List all ships</a></li></li>
                     <li class="list-group-item">
                     <!-- form to add a new ship -->
-                    <form>
+                    <form action="http://localhost:3000/ships/" method="POST">
                         <div class="form-group">
-                        <label for="shipName">Name</label>
-                        <input type="text" class="form-control" id="shipName" placeholder="Enter name">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" name="name" id="name" placeholder="Enter name">
                         </div>
                         <div class="form-group">
-                            <label for="shipModel">Model</label>
-                            <input type="text" class="form-control" id="shipModel" placeholder="Enter model">
+                            <label for="model">Model</label>
+                            <input type="text" class="form-control" name="model" id="model" placeholder="Enter model">
                         </div>
                         <div class="form-group">
-                            <label for="shipCity">City</label>
-                            <input type="text" class="form-control" id="shipCity" placeholder="Enter city">
+                            <label for="location">City</label>
+                            <input type="text" class="form-control" name="location" id="location" placeholder="Enter city">
                             <label for="shipPlanet">Planet</label>
                             <input type="text" class="form-control" id="shipPlanet" placeholder="Enter planet">
                         </div>
                         <div class="form-group">
-                            <label for="shipStatus">Status</label>
-                            <input type="text" class="form-control" id="shipStatus" placeholder="Enter status" aria-describedby="statusHelp">
+                            <label for="status">Status</label>
+                            <input type="text" class="form-control" name="status" id="status" placeholder="Enter status" aria-describedby="statusHelp">
                             <small id="statusHelp" class="form-text text-muted">Choose between O (operational), M (maintenance), D (decommissioned)</small>
                         </div>
                         <button type="submit" class="btn btn-lg btn-block btn-warning">Add</button>
