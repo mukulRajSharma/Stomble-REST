@@ -1,4 +1,4 @@
-const { json } = require('body-parser');
+const bodyParser = require('body-parser');
 const express = require('express');
 const fs = require('fs');
 
@@ -8,6 +8,8 @@ const router = express.Router();
 
 // handling json post requests
 router.use(express.json());
+// form-urlencoded requests
+router.use(bodyParser.urlencoded({ extended: true }));
 
 // get ships root page
 router.get('/', (req, res) => {
@@ -89,7 +91,7 @@ router.get('/:id', (req, res) => {
 // post ship to ships list
 router.post('/', (req, res) => {
     // minimal input validation
-    if (!req.body.name || !req.body.model || !req.body.location || !req.body.status){
+    if (!req.body.name || !req.body.model || !req.body.cname || !req.body.pname || !req.body.status){
         res.status(400).send('name, model, location, status are required, cannot be blank!');
         return;
     }
@@ -103,14 +105,14 @@ router.post('/', (req, res) => {
     let jLoc = JSON.parse(rawLoc);
 
     // validate city name
-    const checkCity = jLoc.find(c => c.cname === req.body.location[0]);
+    const checkCity = jLoc.find(c => c.cname === req.body.cname);
     if (!checkCity) return res.status(400).send('City name does not exist in locations list!');
     // validate planet name
-    const checkPlanet = jLoc.find(c => c.pname === req.body.location[1]);
+    const checkPlanet = jLoc.find(c => c.pname === req.body.pname);
     if (!checkPlanet) return res.status(400).send('Planet name does not exist in locations list!');
 
     // location found, check destination capacity
-    const loc = jLoc.find(c => c.cname === req.body.location[0] && c.pname === req.body.location[1]);
+    const loc = jLoc.find(c => c.cname === req.body.cname && c.pname === req.body.pname);
     if (loc.capacity < 1) return res.status(400).send('Location has reached max capacity!');
 
     // validate status 
@@ -119,7 +121,8 @@ router.post('/', (req, res) => {
         res.status(400).send('Invalid status value!');
         return;
     }
-    
+    //
+    const jsonLocation = "["+req.body.cname+","+req.body.pname+"]";
     // decrease location capacity count
     loc.capacity = loc.capacity - 1;
 
@@ -127,7 +130,7 @@ router.post('/', (req, res) => {
         id: jShip.length+1,
         name: req.body.name,
         model: req.body.model,
-        location: req.body.location,
+        location: jsonLocation,
         status: req.body.status
     };
 
