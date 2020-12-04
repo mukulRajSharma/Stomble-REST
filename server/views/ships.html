@@ -45,14 +45,14 @@
                     </li>
                     <li class="list-group-item">
                         <!-- form to update a ship's status -->
-                        <form>
+                        <form action="/ships/<post.id>?_method=PUT" method="POST">
                             <div class="form-group">
-                            <label for="shipId">ID</label>
-                            <input type="number" class="form-control" id="shipId" placeholder="Enter ID">
+                            <label for="id">ID</label>
+                            <input type="number" class="form-control" name="id" id="shipId" placeholder="Enter ID">
                             </div>
                             <div class="form-group">
-                            <label for="newStatus">Status</label>
-                            <input type="text" class="form-control" id="newStatus" placeholder="Enter new status">
+                            <label for="status">Status</label>
+                            <input type="text" class="form-control" name="status" id="newStatus" placeholder="Enter new status">
                             </div>
                             <button type="submit" class="btn btn-lg btn-block btn-warning">Update</button>
                         </form>
