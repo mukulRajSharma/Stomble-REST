@@ -1,1 +1,5 @@
-
+.btn-red {
+  background-color: red;
+  color: red;
+  border-color: red;
+}

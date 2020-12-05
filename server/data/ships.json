@@ -1,1 +1,1 @@
-[{"id":1,"name":"BattleStar","model":"A","location":["sCity","sPlanet"],"status":"O"},{"id":2,"name":"BB","model":"B","location":"[sCity,sPlanet]","status":"O"}]
+[{"id":2,"name":"BB","model":"B","location":"[sCity,sPlanet]","status":"M"}]

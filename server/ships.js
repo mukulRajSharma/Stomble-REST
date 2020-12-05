@@ -2,9 +2,13 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const fs = require('fs');
 
+const methodOverride = require('method-override');
+
 const path = require('path');
 
 const router = express.Router();
+// handling put and delete requests
+router.use(methodOverride('_method'));
 
 // handling json post requests
 router.use(express.json());
@@ -143,12 +147,12 @@ router.post('/', (req, res) => {
 });
 
 // update ship status
-router.put('/:id', (req, res) => {
+router.put('/', (req, res) => {
     // read the ships file
     let rawShip = fs.readFileSync('./data/ships.json');
     let jShip = JSON.parse(rawShip);
 
-    const ship = jShip.find(c => c.id === parseInt(req.params.id));
+    const ship = jShip.find(c => c.id === parseInt(req.body.id));
     if (!ship) {
         res.status(404).send('Ship with given id not found!');
         return;
@@ -168,12 +172,12 @@ router.put('/:id', (req, res) => {
 });
 
 // delete ship with given id
-router.delete('/:id', (req, res) => {
+router.delete('/', (req, res) => {
     // read the ships file
     let rawShip = fs.readFileSync('./data/ships.json');
     let jShip = JSON.parse(rawShip);
 
-    const ship = jShip.find(c => c.id === parseInt(req.params.id));
+    const ship = jShip.find(c => c.id === parseInt(req.body.id));
     if (!ship) {
         res.status(404).send('Ship with given id does not exist');
         return;
