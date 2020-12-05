@@ -6,6 +6,8 @@ const path = require('path');
 const ships = require('./ships');
 const locations = require('./locations');
 
+app.use(express.static(path.join(__dirname, "/public")));
+
 app.use('/ships', ships);
 app.use('/locations', locations);
 

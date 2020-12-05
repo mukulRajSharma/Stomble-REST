@@ -1,12 +1,19 @@
+const bodyParser = require('body-parser');
 const express = require('express');
 const fs = require('fs');
 
-const router = express.Router();
+const methodOverride = require('method-override');
 
 const path = require('path');
 
+const router = express.Router();
+// handling put and delete requests
+router.use(methodOverride('_method'));
+
 // handling json post requests
-router.use(express.json())
+router.use(express.json());
+// form-urlencoded requests
+router.use(bodyParser.urlencoded({ extended: true }));
 
 router.get('/', (req, res) => {
     //res.send('Locations page');
@@ -64,13 +71,13 @@ router.post('/', (req, res) => {
 });
 
 // delete location with given id
-router.delete('/:id', (req, res) => {
+router.delete('/', (req, res) => {
     // load the locations file
     let rawLoc = fs.readFileSync('./data/locations.json');
     let jLoc = JSON.parse(rawLoc);
 
     // find the location with given id
-    const loc = jLoc.find(c => c.id === parseInt(req.params.id));
+    const loc = jLoc.find(c => c.id === parseInt(req.body.id));
     if (!loc) {
         res.status(404).send('Location with given id does not exist');
         return;
