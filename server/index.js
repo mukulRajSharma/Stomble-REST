@@ -3,8 +3,8 @@ const app = express();
 
 const path = require('path');
 
-const ships = require('./ships');
-const locations = require('./locations');
+const ships = require('./routes/ships');
+const locations = require('./routes/locations');
 
 app.use(express.static(path.join(__dirname, "/public")));
 

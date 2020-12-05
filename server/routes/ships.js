@@ -18,7 +18,8 @@ router.use(bodyParser.urlencoded({ extended: true }));
 // get ships root page
 router.get('/', (req, res) => {
     //res.send('Ship Page');
-    res.sendFile(path.join(__dirname)+'/views/ships.html');
+    //res.sendFile('/_programming/Stomble/Stomble-REST/server/views/ships.html');
+    res.sendFile(path.join(__dirname, '../')+'views/ships.html');
 })
 
 // dedicated page for travel functionality
