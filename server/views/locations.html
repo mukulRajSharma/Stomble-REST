@@ -5,7 +5,7 @@
     </head>
     <body>
         <div class="container">
-            <div class="jumbotron" style="text-align: center;">
+            <div class="jumbotron" style="text-align: center; background-color: grey;">
                 <h1>LOCATION PAGE</h1>
                 <!-- home and location buttons -->
                 <div>
@@ -18,24 +18,34 @@
             <div>
                 <ul class="list-group">
                     <!-- button to list all locations -->
-                    <li class="list-group-item"><a href="/locations/list" class="btn btn-primary btn-lg btn-block">List all locations</a></li></li>
+                    <li class="list-group-item"><a href="/locations/list" class="btn btn-primary btn-lg btn-block">List all locations</a></li>
                     
                     <li class="list-group-item">
                     <!-- form to add a new location -->
-                        <form>
+                        <form action="/locations/" method="POST">
                             <div class="form-group">
-                            <label for="cname">City Name</label>
-                            <input type="text" class="form-control" id="cname" placeholder="Enter city name">
+                                <label for="cname">City Name</label>
+                                <input type="text" class="form-control" name="cname" id="cname" placeholder="Enter city name">
                             </div>
                             <div class="form-group">
                                 <label for="pname">Planet Name</label>
-                                <input type="text" class="form-control" id="pname" placeholder="Enter planet name">
+                                <input type="text" class="form-control" name="pname" id="pname" placeholder="Enter planet name">
                             </div>
                             <div class="form-group">
                                 <label for="capacity">Capacity</label>
-                                <input type="number" class="form-control" id="capacity" placeholder="Enter capacity">
+                                <input type="number" class="form-control" name="capacity" id="capacity" placeholder="Enter capacity">
                             </div>
                             <button type="submit" class="btn btn-lg btn-block btn-warning">Add</button>
+                        </form>
+                    </li>
+                    <li class="list-group-item">
+                        <!-- form to update a ship's status -->
+                        <form action="/locations/?_method=DELETE" method="POST">
+                            <div class="form-group">
+                                <label for="deleteLocationId">ID</label>
+                                <input type="number" class="form-control" name="id" id="deleteLocationId" placeholder="Enter ID">
+                            </div>
+                            <button type="submit" id="delete-btn" class="btn btn-lg btn-block" style="background-color:rgb(207, 62, 62); color: white;">Delete location</button>
                         </form>
                     </li>
                 </ul>
