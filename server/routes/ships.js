@@ -24,16 +24,17 @@ router.get('/', (req, res) => {
 
 // dedicated page for travel functionality
 router.get('/travel', (req, res) => {
-    res.send('Travel page');
+    //res.send('Travel page');
+    res.sendFile(path.join(__dirname, '../')+'views/travel.html');
 });
 
-router.put('/travel/:id', (req, res) => {
+router.put('/travel/', (req, res) => {
     // read the ships file
     let rawShip = fs.readFileSync('./data/ships.json');
     let jShip = JSON.parse(rawShip);
     
     // check status of the ship
-    const ship = jShip.find(c => c.id === parseInt(req.params.id));
+    const ship = jShip.find(c => c.id === parseInt(req.body.id));
     if (!ship) return res.status(404).send('Ship with given id does not exist!');
     if (ship.status != "O") return res.status(400).send('Ship with given id is not operational!');
 
@@ -47,28 +48,30 @@ router.put('/travel/:id', (req, res) => {
     if (!loc) return res.status(400).send('Location with given name does not exist!');
 
     // destination same as origin
-    if (req.body.cname === ship.location[0] && req.body.pname === ship.location[1]) return res.status(400).send('Present location is the destination!');
+    const location_string='['+req.body.cname+','+req.body.pname+']';
+    if (location_string===ship.location) return res.status(400).send('Present location is the destination!');
 
     // location found, check destination capacity
-    if (loc.capacity < 1) return res.status(400).send('Location has reached max capacity!');
-
+    if (parseInt(loc.capacity) < 1) return res.status(400).send('Location has reached max capacity!');
+    
     // update the capacity of the old location
-    const loc_old = jLoc.find(c => c.cname === ship.location[0] && c.pname === ship.location[1]);
-    loc_old.capacity = loc_old.capacity + 1;
+    let loc_old = jLoc.find(c => '['+c.cname+','+c.pname+']' === ship.location);//.toString() && c.pname === ship.location[1].toString());
+    loc_old.capacity = parseInt(loc_old.capacity) + 1;
 
     // change location
-    ship.location[0] = req.body.cname;
-    ship.location[1] = req.body.pname;
+    ship.location = location_string;
+    // ship.location[0] = req.body.cname;
+    // ship.location[1] = req.body.pname;
 
     // decrease location capacity
-    loc.capacity = loc.capacity-1;
+    loc.capacity = parseInt(loc.capacity)-1;
 
     // write the changes back to the data files
     fs.writeFileSync('./data/ships.json', JSON.stringify(jShip));
     fs.writeFileSync('./data/locations.json', JSON.stringify(jLoc));
     
     // send modified ship object as response    
-    res.end(ship);
+    res.end(JSON.stringify(ship, null, 3));
 
 });
 
@@ -188,8 +191,8 @@ router.delete('/', (req, res) => {
     let rawLoc = fs.readFileSync('./data/locations.json');
     let jLoc = JSON.parse(rawLoc);
 
-    const loc = jLoc.find(c => c.cname === ship.location[0] && c.pname === ship.location[1]);
-    loc.capacity = loc.capacity + 1;
+    const loc = jLoc.find(c => '['+c.cname+','+c.pname+']'===ship.location);
+    loc.capacity = parseInt(loc.capacity) + 1;
     
     // delete ship with this id
     const index = jShip.indexOf(ship);

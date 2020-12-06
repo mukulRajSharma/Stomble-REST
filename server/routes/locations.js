@@ -88,8 +88,8 @@ router.delete('/', (req, res) => {
 
     let rawShip = fs.readFileSync('./data/ships.json');
     let jShip = JSON.parse(rawShip);
-
-    const ship = jShip.find(c => loc.cname===c.location[0] && loc.pname===c.location[1]);
+    const location_string = '['+loc.cname+','+loc.pname+']';
+    const ship = jShip.find(c => c.location === location_string);
     if (ship) return res.status(400).send('Location has ships parked, remove or delete ships before deleting location!');
 
     // remove element from the JSON locations list
